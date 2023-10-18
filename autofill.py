@@ -1,19 +1,50 @@
 import pandas as pd
-victim = pd.read_csv("../S_user_34_be49cdd8d6cffccceecf45eb1f9d2fec3260d3bfa736ae390a61614b2a9f7914", delimiter= '\t')
-victim1 = pd.read_csv("../S_user_34_72bc2eb6896c7d2e0d8f66689d55a8f4695ee048424a95c7ab21c73b56a7705f", delimiter= '\t')
 
-nom_column = ["id_x","date", "lont", "lat"]
+def chargerDATAvictime(fichier, nomdf):
 
-victim1.columns = nom_column
-victim1clean = victim1.loc[victim1["id_x"] != "DEL"]
+    victim = pd.read_csv(fichier, delimiter='\t')
+    nom_column = ["id_x","date", "lont", "lat"]
+    victim.columns = nom_column
+    victimclean = victim.loc[victim["id_x"] != "DEL"]
+    victimclean.to_csv(nomdf + ".csv", index=False)
 
-origin = pd.read_csv("0riginal", delimiter= '\t')
-origin.columns = ["id_o","date", "lont", "lat"]
-origin[["lont", "lat"]] = origin[["lont", 'lat']].round(2)
-#origin.to_csv("new_origin.csv", index=False)
-origin['lont'] = origin['lont'].astype('str')
-origin['lat'] = origin['lat'].astype('str')
+def chargerDATAorigin(fichier, nomdf):
 
-# test = pd.merge(origin, victim1clean, on='date')
-test = origin.merge(victim1clean, on=['date', 'lont', 'lat'], suffixes=('_df1', '_df2'))
-test.to_csv("test72.csv", index=False)
+    origin = pd.read_csv(fichier, delimiter= '\t')
+    origin.columns = ["id_o","date", "lont", "lat"]
+    origin[["lont", "lat"]] = origin[["lont", 'lat']].round(2)
+    origin['lont'] = origin['lont'].astype('str')
+    origin['lat'] = origin['lat'].astype('str')
+    origin.to_csv(nomdf + ".csv", index=False)
+
+def createJoin(fichierorigin, fichiervictim, nomjointure):
+
+    origin = pd.read_csv(fichierorigin)
+    victim = pd.read_csv(fichiervictim)
+
+    jointure = origin.merge(victim, on=['date', 'lont', 'lat'], suffixes=('_df1', '_df2'))
+    jointure.to_csv(nomjointure + ".csv", index=False)
+
+def createcouple(fichierjointure, nbfichier):
+
+    df = pd.read_csv(fichierjointure)
+    df[['date', 'heure']] = df['date'].str.split(' ', n=1, expand=True)
+    pair_counts = df.groupby(['id_o', 'date', 'id_x']).size().reset_index(name='count')
+    pair_counts = pair_counts.sort_values(by='count', ascending=False)
+    pair_counts.to_csv(nbfichier + '.csv', index=False)
+
+def sortbymouth(fichierresult, fichierfinal):
+
+    df = pd.read_csv(fichierresult)
+    df['date'] = pd.to_datetime(df['date'])
+
+    # Grouper par semaine
+    df['date'] = df['date'].dt.to_period('W-TUE')
+    # Compter les occurrences de lignes dupliquées pour chaque semaine
+    counts = df[df.duplicated()].groupby(['id_o', 'date', 'id_x']).size().reset_index(name='count')
+
+
+    counts.to_csv(fichierfinal+'.csv', index=False)
+
+
+
