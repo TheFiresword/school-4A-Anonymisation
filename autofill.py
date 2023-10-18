@@ -1,5 +1,6 @@
 import pandas as pd
-victim1 = pd.read_csv("S_user_34_be49cdd8d6cffccceecf45eb1f9d2fec3260d3bfa736ae390a61614b2a9f7914", delimiter= '\t')
+victim = pd.read_csv("../S_user_34_be49cdd8d6cffccceecf45eb1f9d2fec3260d3bfa736ae390a61614b2a9f7914", delimiter= '\t')
+victim1 = pd.read_csv("../S_user_34_72bc2eb6896c7d2e0d8f66689d55a8f4695ee048424a95c7ab21c73b56a7705f", delimiter= '\t')
 
 nom_column = ["id_x","date", "lont", "lat"]
 
@@ -15,4 +16,4 @@ origin['lat'] = origin['lat'].astype('str')
 
 # test = pd.merge(origin, victim1clean, on='date')
 test = origin.merge(victim1clean, on=['date', 'lont', 'lat'], suffixes=('_df1', '_df2'))
-test.to_csv("test.csv", index=False)
+test.to_csv("test72.csv", index=False)
