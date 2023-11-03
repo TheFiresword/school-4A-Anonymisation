@@ -1,13 +1,23 @@
-from function import *
+from joinAlgo import *
+df = pd.read_csv('../truth_ground.csv', delimiter= '\t')
+df.columns = ["id_o","date", "long", "lat"]
+
+#=====================================================
+# Attaque contre Autofill
+#=====================================================
+df_anonyme = nettoyerDonneesAnonymisees('../Autofill/submit1')
+appliquerAlgorithme(df, df_anonyme, 'Xsubmit1')
+genererJson('Xsubmit1.csv', 'Xsubmit1_1')
+
 
 
 # FICHIER 92
 #chargerDATAorigin("0riginal", "dforigin")
 #chargerDATAvictime("S_user_59_92898742d7129cbbf413724f301c258730b979188310cebca9d06ab58c7f5ae0", "dfvictim92")
-createJoin("dforigin.csv", "dfvictim92.csv", "jointure92")
-createcouple("jointure92.csv", "resultat92")
-maxresponse("resultat92.csv", "final92")
-generatejson("final92.csv", "attack92")
+#createJoin("dforigin.csv", "dfvictim92.csv", "jointure92")
+#createcouple("jointure92.csv", "resultat92")
+#maxresponse("resultat92.csv", "final92")
+#generatejson("final92.csv", "attack92")
 
 # FICHIER a5
 # chargerDATAvictime("S_user_59_a5f2ff1b47e658792f3919d1fd0c04571f4ebff75bfcc74121b7a1429613d49d", "dfvictima5")
