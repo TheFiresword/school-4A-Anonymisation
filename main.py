@@ -1,13 +1,13 @@
 from joinAlgo import *
-df = pd.read_csv('../truth_ground.csv', delimiter= '\t')
+df = pd.read_csv('truth_ground.csv', delimiter= '\t')
 df.columns = ["id_o","date", "long", "lat"]
 
 #=====================================================
 # Attaque contre Autofill
 #=====================================================
-df_anonyme = nettoyerDonneesAnonymisees('../Autofill/submit1')
-appliquerAlgorithme(df, df_anonyme, 'Xsubmit1')
-genererJson('Xsubmit1.csv', 'Xsubmit1_1')
+df_anonyme = nettoyerDonneesAnonymisees('Autofill/submit1')
+appliquerAlgorithme(df, df_anonyme, 'Autofill/Xsubmit1')
+genererJson('Autofill/Xsubmit1.csv', 'Autofill/Xsubmit1_1')
 
 
 
