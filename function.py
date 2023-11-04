@@ -6,6 +6,7 @@ def chargerDATAvictime(fichier, nomdf):
     victim = pd.read_csv(fichier, delimiter='\t')
     nom_column = ["id_x","date", "lont", "lat"]
     victim.columns = nom_column
+    victim[["lont", "lat"]] = victim[["lont", 'lat']].round(3)
     victimclean = victim.loc[victim["id_x"] != "DEL"]
     victimclean.to_csv(nomdf + ".csv", index=False)
 
@@ -13,7 +14,7 @@ def chargerDATAorigin(fichier, nomdf):
 
     origin = pd.read_csv(fichier, delimiter= '\t')
     origin.columns = ["id_o","date", "lont", "lat"]
-    #origin[["lont", "lat"]] = origin[["lont", 'lat']].round(3)
+    origin[["lont", "lat"]] = origin[["lont", 'lat']].round(3)
     origin['lont'] = origin['lont'].astype('str')
     origin['lat'] = origin['lat'].astype('str')
     origin.to_csv(nomdf + ".csv", index=False)
@@ -50,7 +51,7 @@ def maxresponse(fichierresult, fichierfinal):
     df = pd.read_csv(fichierresult)
 
 
-    idx = df.groupby(['id_x', 'date'])['count'].idxmax()
+    idx = df.groupby(['id_o', 'date'])['count'].idxmax()
 
 # Extraire ces lignes du DataFrame d'origine
     result = df.loc[idx].sort_values(by='count', ascending=False)
@@ -95,5 +96,25 @@ def generatejson(fichierfinal, nomjson):
 
 
 
+def idmanquant(nomjson, nomjsonfinal):
+    with open(nomjson, 'r') as json_file:
+        data = json.load(json_file)
+
+    semaines = {'2015-10':None, '2015-11':None,'2015-12':None,'2015-13':None,  '2015-14':None, '2015-15':None, '2015-16':None, '2015-17':None,'2015-18':None,'2015-19':None, '2015-20':None}
+
+
+    ids_manquants = [str(i) for i in range(1, 108) if str(i) not in data]
+
+    # Ajouter les clés manquantes avec des valeurs par défaut
+    for id_manquant in ids_manquants:
+        data[id_manquant] = semaines
+        
+
+    
+
+    # Écrire le JSON résultant dans un fichier de sortie
+    output_file = nomjsonfinal+'.json'
+    with open(output_file, 'w') as f:
+        json.dump(data, f, indent=4, separators=(',', ':'))
 
 
