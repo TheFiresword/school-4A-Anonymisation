@@ -7,6 +7,7 @@ def nettoyerDonneesAnonymisees(fichier : str):
     '''
     df = pd.read_csv(fichier, delimiter='\t')
     df.columns = ["id_x","date", "long", "lat"]
+
     # On a assez de données pour se permettre de supprimer les lignes qui ont même un champ DEL
     df_propre = df.loc[(df["id_x"] != "DEL") & (df["date"] != "DEL") & (df["long"] != "DEL") & (df["lat"] != "DEL")]
     columns_types = {'id_x' : str, 'date': str, 'long': float, 'lat': float}
@@ -15,7 +16,7 @@ def nettoyerDonneesAnonymisees(fichier : str):
     return df_propre
 
 
-def appliquerAlgorithme(df_original, df_anonymise, nom_fichier):
+def appliquerAlgorithme(df_original, df_anonymise, nom_fichier, numeric_precision=0.01):
     '''
     Fonction : L'idée de l'algorithme est de faire des jointures entre le fichier original (truth ground) et le fichier 
     à attaquer, pour retrouver les correspondances identifiant original ⇔ pseudo identifiant. La contrainte est que plusieurs 
@@ -24,7 +25,9 @@ def appliquerAlgorithme(df_original, df_anonymise, nom_fichier):
     l'identifiant original.
     '''
     df_jointure = df_original.merge(df_anonymise, on=['date'], suffixes=['_o','_x'])
-    precision_mask = df_jointure.apply(axis = 1, func = lambda row : abs(row['long_o']-row['long_x']) < 0.001 and abs(row['lat_x']-row['lat_o']) < 0.001)
+    
+    precision_mask = (abs(df_jointure['long_o'] - df_jointure['long_x']) < numeric_precision) & (abs(df_jointure['lat_x'] - df_jointure['lat_o']) < numeric_precision)
+
     df_jointure = df_jointure[precision_mask].drop(columns=['long_x', 'lat_x']).rename(
         columns={'long_o': 'long', 'lat_o' : 'lat'})
 

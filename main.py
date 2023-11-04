@@ -1,35 +1,34 @@
 from joinAlgo import *
-df = pd.read_csv('truth_ground.csv', delimiter= '\t')
+import requests
+from io import StringIO
+
+truth_file_url = "https://drive.usercontent.google.com/download?id=1KE4dJ_ArA7jhIUYmzITIYO7Yh60rQ0-K&export=download&authuser=2&confirm=t&uuid=5b074238-7709-408b-ac93-86cf839cdb07&at=APZUnTXJHY4NiV5TeGbmEtE-F6Ip:1699105244012"
+
+# Charger le fichier de vérité dans un dataframe sans le télécharger
+df = pd.read_csv(truth_file_url, delimiter= '\t')
 df.columns = ["id_o","date", "long", "lat"]
 
 #=====================================================
-# Attaque contre Autofill
+# Attaques contre Autofill
 #=====================================================
-df_anonyme = nettoyerDonneesAnonymisees('Autofill/submit1')
-appliquerAlgorithme(df, df_anonyme, 'Autofill/Xsubmit1')
-genererJson('Autofill/Xsubmit1.csv', 'Autofill/Xsubmit1_1')
 
+#----------------------Submit476------------------------#
+url476 = "https://drive.usercontent.google.com/download?id=1Ax-jMGrXq4Sr3mOm-Lb5O1BdX9FvVYHt&export=download&authuser=2&confirm=t&uuid=7c2d786f-82f2-4cac-ab2b-fcc70752af6d&at=APZUnTXkqE9yATPVDqbZ0db14lyD:1699105490973"
+#df_anonyme = nettoyerDonneesAnonymisees(url476)
+#appliquerAlgorithme(df, df_anonyme, 'Autofill/Xsubmit476')
+#genererJson('Autofill/Xsubmit476.csv', 'Autofill/Xsubmit476_1')
 
+#----------------------Submit449------------------------#
+url449 = "https://drive.usercontent.google.com/download?id=1jsjcmkfZem_MdU9dNotDUyJZWbyPTkNm&export=download&authuser=2&confirm=t&uuid=aaf77d2b-a0ef-453b-861f-9196ba3681dc&at=APZUnTVBQKtbBFQWxXJqg_HvIqQo:1699105534254"
+#df_anonyme = nettoyerDonneesAnonymisees(url449)
+#appliquerAlgorithme(df, df_anonyme, 'Autofill/Xsubmit449')
+#genererJson('Autofill/Xsubmit449.csv', 'Autofill/Xsubmit449_1')
 
-# FICHIER 92
-#chargerDATAorigin("0riginal", "dforigin")
-#chargerDATAvictime("S_user_59_92898742d7129cbbf413724f301c258730b979188310cebca9d06ab58c7f5ae0", "dfvictim92")
-#createJoin("dforigin.csv", "dfvictim92.csv", "jointure92")
-#createcouple("jointure92.csv", "resultat92")
-#maxresponse("resultat92.csv", "final92")
-#generatejson("final92.csv", "attack92")
+#----------------------Submit444------------------------#
+url444="https://drive.usercontent.google.com/download?id=1DFlw-8TN2AG-kzu4GJEyZsi_OClL9wWB&export=download&authuser=2&confirm=t&uuid=00612a48-2c8e-4f9f-b274-ef9869221653&at=APZUnTXKPViLvNlu8kz9NQTgUuxu:1699105432050"
+df_anonyme = nettoyerDonneesAnonymisees(url444)
+appliquerAlgorithme(df, df_anonyme, 'Autofill/Xsubmit444')
+genererJson('Autofill/Xsubmit444.csv', 'Autofill/Xsubmit444_1')
 
-# FICHIER a5
-# chargerDATAvictime("S_user_59_a5f2ff1b47e658792f3919d1fd0c04571f4ebff75bfcc74121b7a1429613d49d", "dfvictima5")
-# createJoin("..\dforigin.csv", "dfvictima5.csv", "jointurea5")
-# createcouple("jointurea5.csv", "resultata5")
-# maxresponse("resultata5.csv", "finala5")
-# generatejson("finala5.csv", "attacka5")
-
-# Fichier a3
-# chargerDATAvictime("S_user_59_a365473ee4db27f1b72c6e2c72e0875c508afba82c1511e3501a5f82e58f564a", "dfvictima3")
-# createJoin("..\dforigin.csv", "dfvictima3.csv", "jointurea3")
-# createcouple("jointurea3.csv", "resultata3")
-# maxresponse("resultata3.csv", "finala3")
-# generatejson("finala3.csv", "attacka3")
-
+#----------------------Submit500------------------------#
+url500="https://drive.usercontent.google.com/download?id=1EN5pk5goh-U71-WYg3m-a_nbJHk-133_&export=download&authuser=2&confirm=t&uuid=88ecc2fb-8fb3-44cf-b1ba-2b976eae9345&at=APZUnTU55wT12NPqijT_6xpLgmop:1699110725849"
