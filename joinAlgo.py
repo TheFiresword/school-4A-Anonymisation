@@ -1,22 +1,9 @@
 import pandas as pd
 import json
+import gc
+from processingData import *
 
-def nettoyerDonneesAnonymisees(fichier : str):
-    '''
-    Fonction : Clean les données en forçant les types des colonnes - supprimant les lignes DEL etc
-    '''
-    df = pd.read_csv(fichier, delimiter='\t')
-    df.columns = ["id_x","date", "long", "lat"]
-
-    # On a assez de données pour se permettre de supprimer les lignes qui ont même un champ DEL
-    df_propre = df.loc[(df["id_x"] != "DEL") & (df["date"] != "DEL") & (df["long"] != "DEL") & (df["lat"] != "DEL")]
-    columns_types = {'id_x' : str, 'date': str, 'long': float, 'lat': float}
-    df_propre = df_propre.astype(columns_types)
-    #df_propre.to_csv('cleaned.csv', index=False)
-    return df_propre
-
-
-def appliquerAlgorithme(df_original, df_anonymise, nom_fichier, numeric_precision=0.01):
+def appliquerAlgorithme(df_original, df_anonymise, nom_fichier):
     '''
     Fonction : L'idée de l'algorithme est de faire des jointures entre le fichier original (truth ground) et le fichier 
     à attaquer, pour retrouver les correspondances identifiant original ⇔ pseudo identifiant. La contrainte est que plusieurs 
@@ -24,30 +11,23 @@ def appliquerAlgorithme(df_original, df_anonymise, nom_fichier, numeric_precisio
     et être plus précis, l'algorithme cherche l'individu(pseudonymisé) qui a le plus de correspondances sur la semaine avec 
     l'identifiant original.
     '''
-    df_jointure = df_original.merge(df_anonymise, on=['date'], suffixes=['_o','_x'])
+    df_jointure = pd.merge(df_original, df_anonymise, on=['date', 'long', 'lat'], how='inner', suffixes=['_o', '_x'])
+    # optimisation mémoire
+    del df_original
+    del df_anonymise
+    gc.collect()
     
-    precision_mask = (abs(df_jointure['long_o'] - df_jointure['long_x']) < numeric_precision) & (abs(df_jointure['lat_x'] - df_jointure['lat_o']) < numeric_precision)
+    df_jointure['date'] = df_jointure['date'].dt.strftime('%Y-%U')
 
-    df_jointure = df_jointure[precision_mask].drop(columns=['long_x', 'lat_x']).rename(
-        columns={'long_o': 'long', 'lat_o' : 'lat'})
-
-    df_jointure[['date', 'heure']] = df_jointure['date'].str.split(' ', n=1, expand=True)
-    df_jointure['date'] = pd.to_datetime(df_jointure['date'])
-
-    df_jointure['date'] = df_jointure['date'].dt.to_period('W')
-    # Renommer les semaines avec un numéro particulier
-    df_jointure['date'] = df_jointure['date'].dt.week
-
-    # Renommer les semaines en utilisant un dictionnaire de correspondance
-    numero_semaines = {10: '2015-10', 11: '2015-11', 12:'2015-12', 13: '2015-13', 14: '2015-14', 15: '2015-15', 16: '2015-16', 
-                       17: '2015-17', 18: '2015-18', 19: '2015-19', 20: '2015-20'}
-    df_jointure['date'] = df_jointure['date'].map(numero_semaines)
     df_jointure.rename(columns={'date':'semaine'}, inplace=True)
     
     df_correspondances = df_jointure.groupby(['id_o', 'semaine', 'id_x']).size().reset_index(name='count')
+    del df_jointure
+    gc.collect()
+    
     index_correspondances_probables = df_correspondances.groupby(['id_o', 'semaine'])['count'].idxmax()
-    df_correspondances = df_correspondances.loc[index_correspondances_probables].sort_values(by=['count', 'id_o'], 
-                                                                                             ascending=[False, True])
+    df_correspondances = df_correspondances.loc[index_correspondances_probables].sort_values(by=['id_o', 'semaine'],
+                                                                                             ascending=[True, True])
     df_correspondances.to_csv(nom_fichier+'.csv', index=False)
 
 
@@ -63,7 +43,7 @@ def genererJson(fichier_csv, fichier_json):
 
         if id_1 not in data:
             data[id_1] = {}
-        
+
         if semaine not in data[id_1]:
             data[id_1][semaine] = []
         
