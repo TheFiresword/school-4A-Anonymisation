@@ -6,17 +6,18 @@ def chargerDATAvictime(fichier, nomdf):
     victim = pd.read_csv(fichier, delimiter='\t')
     nom_column = ["id_x","date", "lont", "lat"]
     victim.columns = nom_column
+    victim = victim.loc[victim["id_x"] != "DEL"]
+    victim = victim.drop_duplicates(subset=['id_x', 'date'])
+    count = victim["id_x"].nunique()
+    print(count)
     victim[["lont", "lat"]] = victim[["lont", 'lat']].round(3)
-    victimclean = victim.loc[victim["id_x"] != "DEL"]
-    victimclean.to_csv(nomdf + ".csv", index=False)
+    victim.to_csv(nomdf + ".csv", index=False)
 
 def chargerDATAorigin(fichier, nomdf):
 
     origin = pd.read_csv(fichier, delimiter= '\t')
     origin.columns = ["id_o","date", "lont", "lat"]
     origin[["lont", "lat"]] = origin[["lont", 'lat']].round(3)
-    origin['lont'] = origin['lont'].astype('str')
-    origin['lat'] = origin['lat'].astype('str')
     origin.to_csv(nomdf + ".csv", index=False)
 
 def createJoin(fichierorigin, fichiervictim, nomjointure):
@@ -44,6 +45,8 @@ def createcouple(fichierjointure, nbfichier):
     
     pair_counts = df.groupby(['id_o', 'date', 'id_x']).size().reset_index(name='count')
     pair_counts = pair_counts.sort_values(by='count', ascending=False)
+    count = pair_counts["id_x"].nunique()
+    print(count)
     pair_counts.to_csv(nbfichier + '.csv', index=False)
 
 def maxresponse(fichierresult, fichierfinal):
@@ -53,13 +56,14 @@ def maxresponse(fichierresult, fichierfinal):
 
     idx = df.groupby(['id_o', 'date'])['count'].idxmax()
 
-# Extraire ces lignes du DataFrame d'origine
+    # Extraire ces lignes du DataFrame d'origine
     result = df.loc[idx].sort_values(by='count', ascending=False)
 
     # Réinitialiser les index si nécessaire
     result = result.reset_index(drop=True)
 
-
+    count = result["id_x"].nunique()
+    print(count)
     result.to_csv(fichierfinal+'.csv', index=False)
 
 def generatejson(fichierfinal, nomjson):
@@ -103,7 +107,7 @@ def idmanquant(nomjson, nomjsonfinal):
     semaines = {'2015-10':None, '2015-11':None,'2015-12':None,'2015-13':None,  '2015-14':None, '2015-15':None, '2015-16':None, '2015-17':None,'2015-18':None,'2015-19':None, '2015-20':None}
 
 
-    ids_manquants = [str(i) for i in range(1, 108) if str(i) not in data]
+    ids_manquants = [str(i) for i in range(1, 111) if str(i) not in data]
 
     # Ajouter les clés manquantes avec des valeurs par défaut
     for id_manquant in ids_manquants:
