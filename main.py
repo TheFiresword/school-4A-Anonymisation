@@ -1,25 +1,28 @@
 from function import *
 
 
-# FICHIER 92
-#chargerDATAorigin("0riginal", "dforigin")
-#chargerDATAvictime("S_user_59_92898742d7129cbbf413724f301c258730b979188310cebca9d06ab58c7f5ae0", "dfvictim92")
-createJoin("dforigin.csv", "dfvictim92.csv", "jointure92")
-createcouple("jointure92.csv", "resultat92")
-maxresponse("resultat92.csv", "final92")
-generatejson("final92.csv", "attack92")
 
-# FICHIER a5
-# chargerDATAvictime("S_user_59_a5f2ff1b47e658792f3919d1fd0c04571f4ebff75bfcc74121b7a1429613d49d", "dfvictima5")
-# createJoin("..\dforigin.csv", "dfvictima5.csv", "jointurea5")
-# createcouple("jointurea5.csv", "resultata5")
-# maxresponse("resultata5.csv", "finala5")
-# generatejson("finala5.csv", "attacka5")
+# FICHIER 385
+chargerDATAorigin("0riginal", "dforigin")
+chargerDATAvictime("Ano_385", "dfvictim385")
+createJoin("dforigin.csv", "dfvictim385.csv", "jointure385")
+createcouple("jointure385.csv", "resultat385")
+maxresponse("resultat385.csv", "final385")
+generatejson("final385.csv", "attack385")
+idmanquant("attack385.json", "attfin385")
 
-# Fichier a3
-# chargerDATAvictime("S_user_59_a365473ee4db27f1b72c6e2c72e0875c508afba82c1511e3501a5f82e58f564a", "dfvictima3")
-# createJoin("..\dforigin.csv", "dfvictima3.csv", "jointurea3")
-# createcouple("jointurea3.csv", "resultata3")
-# maxresponse("resultata3.csv", "finala3")
-# generatejson("finala3.csv", "attacka3")
+# FICHIER 407
+chargerDATAvictime("Ano_407", "dfvictim407")
+createJoin("dforigin.csv", "dfvictim407.csv", "jointure407")
+createcouple("jointure407.csv", "resultat407")
+maxresponse("resultat407.csv", "final407")
+generatejson("final407.csv", "attack407")
+idmanquant("attack407.json", "attfin407")
 
+# FICHIER 468
+chargerDATAvictime("Ano_468", "dfvictim468")
+createJoin("dforigin.csv", "dfvictim468.csv", "jointure468")
+createcouple("jointure468.csv", "resultat468")
+maxresponse("resultat468.csv", "final468")
+generatejson("final468.csv", "attack468")
+idmanquant("attack468.json", "attfin468")
