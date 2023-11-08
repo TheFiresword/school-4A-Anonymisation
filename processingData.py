@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def processDonnees(fichier:str, suppLignesDEL=False, numeric_precision=2):
+def processDonnees(fichier:str, supp_lignesDEL=False, numeric_precision=2, nb_bits_id=16):
     '''
     Fonction : Clean les données de vérité
     Paramètres :
@@ -12,10 +12,11 @@ def processDonnees(fichier:str, suppLignesDEL=False, numeric_precision=2):
     print(df.head(5))
     df.columns = ["id","date", "long", "lat"]
     # On a assez de données pour se permettre de supprimer les lignes qui ont même un champ DEL
-    if suppLignesDEL:
+    if supp_lignesDEL:
         df = df.loc[(df["id"] != "DEL") & (df["date"] != "DEL") & (df["long"] != "DEL") & (df["lat"] != "DEL")]
     
-    columns_types = {'id' : np.int16, 'date': str, 'long': np.float16, 'lat': np.float16}
+    id_type = np.int16 if (nb_bits_id == 16) else np.int32 if(nb_bits_id == 32) else np.int16
+    columns_types = {'id' : id_type, 'date': str, 'long': np.float16, 'lat': np.float16}
     df = df.astype(columns_types)
     
     df['date'] = pd.to_datetime(df['date'], format="%Y-%m-%d %H:%M:%S")

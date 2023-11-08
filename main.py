@@ -29,8 +29,18 @@ url444="https://drive.usercontent.google.com/download?id=1DFlw-8TN2AG-kzu4GJEyZs
 #appliquerAlgorithme(df, df_anonyme, 'Autofill/Xsubmit444')
 #genererJson('Autofill/Xsubmit444.csv', 'Autofill/Xsubmit444_1')
 
+
+#=====================================================
+# Attaques contre Autofill
+#=====================================================
+
 #----------------------Submit500------------------------#
 url500="https://drive.usercontent.google.com/download?id=1EN5pk5goh-U71-WYg3m-a_nbJHk-133_&export=download&authuser=2&confirm=t&uuid=88ecc2fb-8fb3-44cf-b1ba-2b976eae9345&at=APZUnTU55wT12NPqijT_6xpLgmop:1699110725849"
-df_anonyme = processDonnees("Michel Lardon/submit500.csv", suppLignesDEL=True)
-appliquerAlgorithme(df, df_anonyme, 'Michel Lardon/Xsubmit500')
-genererJson('Michel Lardon/Xsubmit500.csv', 'Michel Lardon/Xsubmit500_1')
+#df_anonyme = processDonnees("Michel Lardon/submit500.csv", supp_lignesDEL=True, nb_bits_id=32)
+#appliquerAlgorithme(df, df_anonyme, 'Michel Lardon/Xsubmit500')
+#genererJson('Michel Lardon/Xsubmit500.csv', 'Michel Lardon/Xsubmit500_1')
+
+#----------------------Submit499------------------------#
+df_anonyme = processDonnees("Michel Lardon/submit498.csv", supp_lignesDEL=True)
+appliquerAlgorithme(df, df_anonyme, 'Michel Lardon/Xsubmit498')
+genererJson('Michel Lardon/Xsubmit498.csv', 'Michel Lardon/Xsubmit498_1')
