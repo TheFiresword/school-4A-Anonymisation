@@ -17,7 +17,10 @@ def appliquerAlgorithme(df_original, df_anonymise, nom_fichier):
     del df_anonymise
     gc.collect()
     
+    # Il faut rajouter +1 aux semaines parce que la méthode strftime() commence à partir de 0
     df_jointure['date'] = df_jointure['date'].dt.strftime('%Y-%U')
+    df_jointure['date'] = (df_jointure['date'].str.split('-').str[0] + '-' +
+                    (df_jointure['date'].str.split('-').str[1].astype(int) + 1).astype(str))
 
     df_jointure.rename(columns={'date':'semaine'}, inplace=True)
     

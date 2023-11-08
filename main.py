@@ -4,7 +4,8 @@ truth_file_url = "https://drive.usercontent.google.com/download?id=1KE4dJ_ArA7jh
 
 # Charger le fichier de vérité dans un dataframe sans le télécharger
 df = processDonnees("truth_ground.csv")
-
+for i in range(6, 107):
+    visualiserDonnees(df=df, id=i)
 #=====================================================
 # Attaques contre Autofill
 #=====================================================
@@ -41,6 +42,6 @@ url500="https://drive.usercontent.google.com/download?id=1EN5pk5goh-U71-WYg3m-a_
 #genererJson('Michel Lardon/Xsubmit500.csv', 'Michel Lardon/Xsubmit500_1')
 
 #----------------------Submit499------------------------#
-df_anonyme = processDonnees("Michel Lardon/submit498.csv", supp_lignesDEL=True)
-appliquerAlgorithme(df, df_anonyme, 'Michel Lardon/Xsubmit498')
-genererJson('Michel Lardon/Xsubmit498.csv', 'Michel Lardon/Xsubmit498_1')
+#df_anonyme = processDonnees("Michel Lardon/submit498.csv", supp_lignesDEL=True)
+#appliquerAlgorithme(df, df_anonyme, 'Michel Lardon/Xsubmit498')
+#genererJson('Michel Lardon/Xsubmit498.csv', 'Michel Lardon/Xsubmit498_1')
