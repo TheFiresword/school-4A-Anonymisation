@@ -10,9 +10,9 @@ def processDonnees(fichier:str, supp_lignes_DEL=False, numeric_precision=2, nb_b
         - fichier :: nom du fichier csv ou l'url de son emplacement
         - numeric_precision :: Le nombre de chiffres après la virgule pour les champs de nombres réels
     '''
-    df = pd.read_csv(fichier, delimiter= '\t')
-    print(df.head(5))
+    df = pd.read_csv(fichier, delimiter= '\t')    
     df.columns = ["id","date", "long", "lat"]
+    
     # On a assez de données pour se permettre de supprimer les lignes qui ont même un champ DEL
     if supp_lignes_DEL:
         df = df.loc[(df["id"] != "DEL") & (df["date"] != "DEL") & (df["long"] != "DEL") & (df["lat"] != "DEL")]
@@ -21,12 +21,15 @@ def processDonnees(fichier:str, supp_lignes_DEL=False, numeric_precision=2, nb_b
     columns_types = {'id' : id_type, 'date': str, 'long': np.float16, 'lat': np.float16}
     df = df.astype(columns_types)
     
-    df['date'] = pd.to_datetime(df['date'], format="%Y-%m-%d %H:%M:%S")
-    df[["long", "lat"]] = df[["long", 'lat']].round(numeric_precision)
+    df['date'] = pd.to_datetime(df['date'], format="%Y-%m-%d %H:%M:%S")    
+    #df.round({'long':numeric_precision , 'lat':numeric_precision})
+    df['long'] = df['long'].apply(lambda x : round(x, 2))
+    df['lat'] = df['lat'].apply(lambda x : round(x, 2))
+    print(df.head(5))
     return df
 
 
-def visualiserDonnees(df : pd.DataFrame, id):
+def visualiserDonnees(df : pd.DataFrame, id, chemin="Graphiques"):
     '''
     Fonction : Visualiser les données facilement
     , x_axis: str, y_axis: str, z_axis
@@ -63,5 +66,5 @@ def visualiserDonnees(df : pd.DataFrame, id):
     legend_elements = [Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=10, label=semaine) 
                        for semaine, color in map_semaines_couleurs.items()]
     plt.legend(handles=legend_elements)
-    plt.savefig('Graphiques/id'+str(id)+'.png')
+    plt.savefig(str(chemin) + '/id'+str(id)+'.png')
     
