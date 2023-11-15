@@ -17,20 +17,22 @@ def bruiter_positions_gps (df):
     return df
 
 def recentrer_positions_gps(df):
+
+    ecart_moyenne = 1 # modifiable ici
+
     moyenne_latitude = df['latitude'].mean()    # 45,78
     moyenne_longitude = df['longitude'].mean()  # 4,879
-    min_lat = moyenne_latitude - 1
-    max_lat = moyenne_latitude + 1
-    min_lon = moyenne_longitude - 1
-    max_lon = moyenne_longitude + 1
+    min_lat = moyenne_latitude - ecart_moyenne
+    max_lat = moyenne_latitude + ecart_moyenne
+    min_lon = moyenne_longitude - ecart_moyenne
+    max_lon = moyenne_longitude + ecart_moyenne
     
-    lat_moins = len(df.index[df['latitude'] < min_lat])
-    lat_plus = len(df.index[df['latitude'] > max_lat])
+    lat_moins = len(df[df['latitude'] < min_lat])
+    lat_plus = len(df[df['latitude'] > max_lat])
     long_moins = len(df[df['longitude'] < min_lon])
     long_plus = len([df['longitude'] > max_lon])
-
-    nb_lignes = lat_moins + lat_plus + long_moins + long_plus
-    print (moyenne_latitude)
-    print (nb_lignes)
+    nb_lignes_hors_zone = lat_moins + lat_plus + long_moins + long_plus
+    
+    print (nb_lignes_hors_zone)
 
 # mettre les id en random
