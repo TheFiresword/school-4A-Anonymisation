@@ -1,12 +1,12 @@
 from attackAlgorithms import *
 from utils import *
-import gc
+import concurrent.futures
 
 truth_file_url = "https://drive.usercontent.google.com/download?id=1KE4dJ_ArA7jhIUYmzITIYO7Yh60rQ0-K&export=download&authuser=2&confirm=t&uuid=5b074238-7709-408b-ac93-86cf839cdb07&at=APZUnTXJHY4NiV5TeGbmEtE-F6Ip:1699105244012"
 
 # Charger le fichier de vérité dans un dataframe sans le télécharger
 df = processDonnees("truth_ground.csv")
-
+df_a = df.loc[25000000 :]
 #for i in range(107, 113):
 #    visualiserDonnees(df=df, id=i)
 
@@ -39,15 +39,66 @@ url444="https://drive.usercontent.google.com/download?id=1DFlw-8TN2AG-kzu4GJEyZs
 # Attaques contre Autofill
 #=====================================================
 
-#----------------------Submit500------------------------#
-url500="https://drive.usercontent.google.com/download?id=1EN5pk5goh-U71-WYg3m-a_nbJHk-133_&export=download&authuser=2&confirm=t&uuid=88ecc2fb-8fb3-44cf-b1ba-2b976eae9345&at=APZUnTU55wT12NPqijT_6xpLgmop:1699110725849"
-df_anonyme = processDonnees("Michel Lardon/submit500.csv", supp_lignes_DEL=True, nb_bits_id=32)
-correlation(df, df_anonyme, "Michel Lardon/Xsubmit500_3")
 
-#jointureNaive(df, df_anonyme, 'Michel Lardon/Xsubmit500_1')
-genererJson('Michel Lardon/Xsubmit500_3.csv', 'Michel Lardon/Xsubmit500_3')
-
-#----------------------Submit499------------------------#
+#----------------------Submit michel lardon------------------------#
 #df_anonyme = processDonnees("Michel Lardon/submit498.csv", supp_lignes_DEL=True)
 #jointureNaive(df, df_anonyme, 'Michel Lardon/Xsubmit498')
 #genererJson('Michel Lardon/Xsubmit498.csv', 'Michel Lardon/Xsubmit498_1')
+
+
+#----------------------Submit pocochocambo------------------------#
+#df_anonyme = processDonnees("pocochocambo/submit434.csv", supp_lignes_DEL=True)
+#print(df_anonyme['id'].unique().size)
+#for id_x in df_anonyme['id'].unique() :
+#    visualiserDonnees(df=df_anonyme, id=id_x, chemin="pocochocambo/images")
+#jointureNaive(df, df_anonyme, 'pocochocambo/Xsubmit352')
+#correlation(df, df_anonyme, "pocochocambo/Xsubmit352_1")
+
+#similitudeTrajectoires(df, df_anonyme, f"pocochocambo/Xsubmit434_part")
+#genererJson('pocochocambo/Xsubmit434_1.csv', 'pocochocambo/Xsubmit434_2')
+
+
+#----------------------Submit dazc------------------------#
+#df_anonyme = processDonnees("dazc/submit481.csv", supp_lignes_DEL=True, numeric_precision=2, nb_bits_id=0)
+#print(df_anonyme['id'].unique().size)
+#for id_x in df_anonyme['id'].unique() :
+#    visualiserDonnees(df=df_anonyme, id=id_x, chemin="pocochocambo/images")#
+#jointureNaive(df, df_anonyme, 'dazc/Xsubmit481')
+#correlation(df, df_anonyme, "pocochocambo/Xsubmit352_1")
+#genererJson('dazc/Xsubmit481.csv', 'dazc/Xsubmit481_1', incr_semaines=True)
+
+#----------------------Submit anonym------------------------#
+#df_anonyme = processDonnees("anonym/submit468.csv", supp_lignes_DEL=True, numeric_precision=2)
+#print(df_anonyme['id'].unique().size)
+#for id_x in df_anonyme['id'].unique() :
+#    visualiserDonnees(df=df_anonyme, id=id_x, chemin="pocochocambo/images")
+#jointureNaive(df, df_anonyme, 'anonym/Xsubmit468')
+#correlation(df, df_anonyme, "pocochocambo/Xsubmit352_1")
+#genererJson('anonym/Xsubmit468.csv', 'anonym/Xsubmit468_1', incr_semaines=True)
+
+#----------------------Submit the------------------------#
+#df_anonyme = processDonnees("the/submit309.csv", supp_lignes_DEL=True, numeric_precision=2)
+#print(df_anonyme['id'].unique().size)
+#for id_x in df_anonyme['id'].unique() :
+#    visualiserDonnees(df=df_anonyme, id=id_x, chemin="pocochocambo/images")
+#jointureNaive(df, df_anonyme, 'the/Xsubmit309')
+#correlation(df, df_anonyme, "pocochocambo/Xsubmit352_1")
+#genererJson('the/Xsubmit309.csv', 'the/Xsubmit309_1', incr_semaines=True)
+
+#----------------------Submit alanozy------------------------#
+#df_anonyme = processDonnees("alanozy/submit546.csv", supp_lignes_DEL=True, numeric_precision=2, nb_bits_id=0)
+#print(df_anonyme['id'].unique().size)
+#for id_x in df_anonyme['id'].unique() :
+#    visualiserDonnees(df=df_anonyme, id=id_x, chemin="pocochocambo/images")
+#jointureNaive(df, df_anonyme, 'alanozy/Xsubmit546')
+#correlation(df, df_anonyme, "pocochocambo/Xsubmit352_1")
+#genererJson('alanozy/Xsubmit546.csv', 'alanozy/Xsubmit546_1', incr_semaines=True)
+
+#----------------------Submit thathack------------------------#
+#df_anonyme = processDonnees("thathack/submit356.csv", supp_lignes_DEL=True, numeric_precision=2)
+#print(df_anonyme['id'].unique().size)
+#for id_x in df_anonyme['id'].unique() :
+#    visualiserDonnees(df=df_anonyme, id=id_x, chemin="pocochocambo/images")
+#jointureNaive(df, df_anonyme, 'thathack/Xsubmit356')
+#correlation(df, df_anonyme, "thathack/Xsubmit356_1")
+#genererJson('thathack/Xsubmit356.csv', 'thathack/Xsubmit356_1', incr_semaines=True)

@@ -1,14 +1,20 @@
 import pandas as pd
 import json
 
-def genererJson(fichier_csv, fichier_json):
+def genererJson(fichier_csv, fichier_json, incr_semaines:bool=False):
     df = pd.read_csv(fichier_csv)
     # Créer un dictionnaire pour stocker les données de sortie
     data = {}
     # Parcourir les lignes du DataFrame
     for index, row in df.iterrows():
         id_1 = row['id_o']
-        semaine = row['semaine']
+        semaine = ""
+        if incr_semaines :
+            semaine_dec = row['semaine']
+            semaine = semaine_dec.split('-')[0] + '-'  + str((int(semaine_dec.split('-')[1]) + 1))
+        else :
+            semaine = row['semaine']
+        
         id_2 = row['id_x']
 
         if id_1 not in data:
@@ -29,7 +35,4 @@ def genererJson(fichier_csv, fichier_json):
     with open(output_file, 'w') as f:
         json.dump(data, f, indent=4, separators=(',', ':'))
 
-import numpy as np
-a : np.float16 = 12.5789875522122555665
-print(round(a, 2))
 

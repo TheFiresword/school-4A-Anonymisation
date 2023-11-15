@@ -1,0 +1,35 @@
+394
+
+Id réel 1 -- semaine 2015-10 -- Id anonyme 354
+Id réel 1 -- semaine 2015-11 -- Id anonyme 214
+Id réel 1 -- semaine 2015-12 -- Id anonyme 187
+Id réel 1 -- semaine 2015-13 -- Id anonyme 298
+Id réel 1 -- semaine 2015-14 -- Id anonyme 171
+Id réel 1 -- semaine 2015-15 -- Id anonyme 48
+Id réel 1 -- semaine 2015-16 -- Id anonyme 256
+Id réel 1 -- semaine 2015-17 -- Id anonyme 191
+Id réel 1 -- semaine 2015-18 -- Id anonyme 147
+Id réel 1 -- semaine 2015-19 -- Id anonyme 254
+Id réel 1 -- semaine 2015-20 -- Id anonyme 133
+Id réel 2 -- semaine 2015-10 -- Id anonyme 30
+Id réel 2 -- semaine 2015-11 -- Id anonyme 321
+Id réel 2 -- semaine 2015-12 -- Id anonyme 233
+Id réel 2 -- semaine 2015-13 -- Id anonyme 291
+Id réel 2 -- semaine 2015-14 -- Id anonyme 6
+Id réel 2 -- semaine 2015-15 -- Id anonyme 206
+Id réel 2 -- semaine 2015-16 -- Id anonyme 442
+Id réel 2 -- semaine 2015-17 -- Id anonyme 49
+Id réel 2 -- semaine 2015-18 -- Id anonyme 356
+Id réel 2 -- semaine 2015-19 -- Id anonyme 64
+Id réel 2 -- semaine 2015-20 -- Id anonyme 68
+Id réel 107 -- semaine 2015-10 -- Id anonyme 440
+Id réel 107 -- semaine 2015-11 -- Id anonyme 364
+Id réel 107 -- semaine 2015-12 -- Id anonyme 112
+Id réel 98 -- semaine 2015-10 -- Id anonyme 104
+Id réel 98 -- semaine 2015-11 -- Id anonyme 335
+Id réel 21 -- semaine 2015-10 -- Id anonyme 434
+Id réel 21 -- semaine 2015-11 -- Id anonyme 386
+Id réel 5 -- semaine 2015-10 -- Id anonyme 59
+Id réel 5 -- semaine 2015-11 -- Id anonyme 310
+Id réel 9 -- semaine 2015-10 -- Id anonyme 358
+Id réel 9 -- semaine 2015-11 -- Id anonyme 337
