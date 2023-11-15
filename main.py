@@ -2,7 +2,7 @@ from joinAlgo import *
 from ano_gps import *
 
 # Charger le fichier de vérité dans un dataframe sans le télécharger
-df = processDonnees("../bdd/0riginal")
+#df = processDonnees("../bdd/0riginal")
 
 #=====================================================
 # Attaques contre anonym212
@@ -13,9 +13,10 @@ df = processDonnees("../bdd/0riginal")
 #genererJson('../bdd/anonym212-2.csv', '../bdd/anonym212_2X')               #crée json avec id dispos
 #idmanquant('../bdd/anonym212-2X.json', '../bdd/anonym212_2_final')         #json final avec tous les id
 
-
 #=====================================================
 # Defense
 #=====================================================
 
-bruiter_positions_gps('minimal')
+data = init_bdd_to_df('../bdd/0riginal')
+data_bruite = bruiter_positions_gps(data)
+recentrer_positions_gps (data_bruite)
