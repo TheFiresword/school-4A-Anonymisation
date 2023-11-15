@@ -17,6 +17,10 @@ from ano_gps import *
 # Defense
 #=====================================================
 
-data = init_bdd_to_df('../bdd/0riginal')
+fichier_a_anonymiser = 'minimal'
+
+data = init_bdd_to_df('../bdd/' + fichier_a_anonymiser)
 data_bruite = bruiter_positions_gps(data)
-recentrer_positions_gps (data_bruite)
+#recentrer_positions_gps (data_bruite)
+data_grille = creer_grille(data)
+data_grille.to_csv('test.csv', index=False)
