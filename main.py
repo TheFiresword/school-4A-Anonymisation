@@ -22,4 +22,4 @@ fichier_a_anonymiser = '../bdd/0riginal'
 # initialise la bdd en dataframe et nomme les colonnes
 data = bdd_to_df_init(fichier_a_anonymiser)
 data_test = ano_par_grille(data, 1) # precision = 1 pour avoir 4000 cases
-df_to_csv(data_test, '../bdd/test_ano_original1.csv')
+df_to_csv(data_test, '../bdd/test_ano_original_que_autour_moyenne.csv')

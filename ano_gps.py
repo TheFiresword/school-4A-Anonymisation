@@ -36,16 +36,6 @@ def creer_grille (df, precision): # precision = ecart autour de la moyenne en de
 def distance_euclidienne(coord1, coord2):
     return math.sqrt((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)
 
-# def trouver_plus_proche(coordonnees, point_reference): # deux couples de coordonnées a comparer
-#     plus_proche = None
-#     distance_min = float('inf')  # initialisation à une valeur infinie
-#     for coord in coordonnees:
-#         distance = distance_euclidienne(point_reference, coord)
-#         if distance < distance_min:
-#             distance_min = distance
-#             plus_proche = coord
-#     return plus_proche
-
 def ano_par_grille (df, precision):
 
     grille = creer_grille(df, precision)
@@ -57,27 +47,22 @@ def ano_par_grille (df, precision):
     # construir un arbre KD avec les coordonnées de la grille
     tree = cKDTree(grille_coords)
 
-    # tTrouver les indices des points les plus proches pour chaque point dans le DataFrame
-    indices_plus_proches = tree.query(df_coords)[1]
+    moyenne_latitude = df['latitude'].mean().round(4)
+    moyenne_longitude = df['longitude'].mean().round(4)
 
-    # remplacez les valeurs dans le DataFrame avec les valeurs de la grille
-    df[['longitude', 'latitude']] = grille_coords[indices_plus_proches]
+    # identifier les indices des lignes à modifier en fonction de la condition
+    condition_colonne = (df['longitude'] >= moyenne_longitude-precision) & (df['longitude'] <= moyenne_longitude+precision) & (df['latitude'] >= moyenne_latitude-precision) & (df['latitude'] <= moyenne_latitude+precision)
+    indices_a_modifier = df.index[condition_colonne]
 
-    # df contient maintenant les nouvelles valeurs résultantes
+    # utiliser l'arbre KD pour trouver les voisins les plus proches uniquement pour les indices identifiés
+    indices_plus_proches = tree.query(df_coords[indices_a_modifier])[1]
+
+    # remplacer les valeurs uniquement pour les indices identifiés dans votre DataFrame
+    df.loc[indices_a_modifier, ['longitude', 'latitude']] = grille_coords[indices_plus_proches]
+
+    # df contient maintenant les nouvelles valeurs résultantes uniquement pour les lignes qui satisfont la condition
     return df
 
 
-# def test (df, precision):
-#     grille = creer_grille(df, precision) # prend environ 1min
 
-#     for long in df['longitude']:
-#         for lat in df['latitude']:
 
-#             if (long-precision < df['longitude'].mean() < long+precision) and (lat-precision < df['latitude'].mean() < lat+precision):
-#                 resultat = trouver_plus_proche(grille.values(), (long, lat))
-#                 index_a_modifier = df[(df['longitude'] == long) & (df['latitude'] == lat)].index
-#                 df.loc[index_a_modifier, 'longitude'] = resultat[0]
-#                 df.loc[index_a_modifier, 'latitude'] = resultat[1]
-    
-
-#     return df
