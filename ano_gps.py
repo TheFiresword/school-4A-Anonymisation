@@ -67,17 +67,17 @@ def ano_par_grille (df, precision):
     return df
 
 
-def test (df, precision):
-    grille = creer_grille(df, precision) # prend environ 1min
+# def test (df, precision):
+#     grille = creer_grille(df, precision) # prend environ 1min
 
-    for long in df['longitude']:
-        for lat in df['latitude']:
+#     for long in df['longitude']:
+#         for lat in df['latitude']:
 
-            if (long-precision < df['longitude'].mean() < long+precision) and (lat-precision < df['latitude'].mean() < lat+precision):
-                resultat = trouver_plus_proche(grille.values(), (long, lat))
-                index_a_modifier = df[(df['longitude'] == long) & (df['latitude'] == lat)].index
-                df.loc[index_a_modifier, 'longitude'] = resultat[0]
-                df.loc[index_a_modifier, 'latitude'] = resultat[1]
+#             if (long-precision < df['longitude'].mean() < long+precision) and (lat-precision < df['latitude'].mean() < lat+precision):
+#                 resultat = trouver_plus_proche(grille.values(), (long, lat))
+#                 index_a_modifier = df[(df['longitude'] == long) & (df['latitude'] == lat)].index
+#                 df.loc[index_a_modifier, 'longitude'] = resultat[0]
+#                 df.loc[index_a_modifier, 'latitude'] = resultat[1]
     
 
-    return df
+#     return df
