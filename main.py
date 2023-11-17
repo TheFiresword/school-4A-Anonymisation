@@ -17,9 +17,7 @@ from ano_gps import *
 # Defense
 #=====================================================
 
-fichier_a_anonymiser = '0riginal'
+fichier_a_anonymiser = '../bdd/minimal'
 
 # initialise la bdd en dataframe et nomme les colonnes
 data = bdd_to_df_init(fichier_a_anonymiser)
-data_ano = ano_par_grille(data, 1)
-df_to_csv(data_ano, 'test_ano1.csv')

@@ -17,7 +17,7 @@ def bruiter_positions_gps (df):
     return df
 
 def arrondir_positions_gps (df, precision):
-    df = df.round({'latitude' : precision, 'longitude' : precision}) # arrondit au millième
+    df = df.round({'latitude' : precision, 'longitude' : precision}) # arrondit au millième si 3
     return df
 
 # def recentrer_positions_gps(df, ecart_moyenne): 
@@ -42,13 +42,13 @@ def arrondir_positions_gps (df, precision):
 
 
 def creer_grille (df, precision): # precision = ecart autour de la moyenne en degrés de longitude/latitude
-    moyenne_latitude = df['latitude'].mean().round(2)    # 45,78
-    moyenne_longitude = df['longitude'].mean().round(2)  # 4,87
+    moyenne_latitude = df['latitude'].mean().round(3)
+    moyenne_longitude = df['longitude'].mean().round(3)
     # dictionnaire des centres des carrés (long, lat) de 200x200 centrés sur la moyenne des coordonnées
     # cases (i,j) coorespondent aux coordonnées des cases dans la grille (-100<i<100 et -100<j<100)
     grille = {}
-    for j in range (precision*10, -precision*11, precision*-1):
-        for i in range (-precision*10, precision*11, precision*1):
+    for j in range (precision*10, -precision*10, precision*-1):
+        for i in range (-precision*10, precision*10, precision*1):
             coord = (moyenne_longitude + i*precision/100, moyenne_latitude + j*precision/100) #dictionnaire de coordonnées
             grille[(i, j)] = coord
     
@@ -82,6 +82,7 @@ def ano_par_grille (df, precision):
                 df.loc[index_a_modifier, 'longitude'] = resultat[0]
                 df.loc[index_a_modifier, 'latitude'] = resultat[1]
     
+    df = arrondir_positions_gps (df, 3)
     return df
 
 
