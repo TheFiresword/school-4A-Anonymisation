@@ -6,7 +6,7 @@ truth_file_url = "https://drive.usercontent.google.com/download?id=1KE4dJ_ArA7jh
 
 # Charger le fichier de vérité dans un dataframe sans le télécharger
 df = processDonnees("truth_ground.csv")
-df_a = df.loc[25000000 :]
+df_a = df.loc[:10000000]
 #for i in range(107, 113):
 #    visualiserDonnees(df=df, id=i)
 
@@ -59,13 +59,8 @@ url444="https://drive.usercontent.google.com/download?id=1DFlw-8TN2AG-kzu4GJEyZs
 
 
 #----------------------Submit dazc------------------------#
-#df_anonyme = processDonnees("dazc/submit481.csv", supp_lignes_DEL=True, numeric_precision=2, nb_bits_id=0)
-#print(df_anonyme['id'].unique().size)
-#for id_x in df_anonyme['id'].unique() :
-#    visualiserDonnees(df=df_anonyme, id=id_x, chemin="pocochocambo/images")#
-#jointureNaive(df, df_anonyme, 'dazc/Xsubmit481')
-#correlation(df, df_anonyme, "pocochocambo/Xsubmit352_1")
-#genererJson('dazc/Xsubmit481.csv', 'dazc/Xsubmit481_1', incr_semaines=True)
+df_anonyme = processDonnees("dazc/submit467.csv", supp_lignes_DEL=True, numeric_precision=2, nb_bits_id=0)
+similitudeTrajectoires(df, df_anonyme, f"dazc/Xsubmit467_2")
 
 #----------------------Submit anonym------------------------#
 #df_anonyme = processDonnees("anonym/submit468.csv", supp_lignes_DEL=True, numeric_precision=2)

@@ -38,50 +38,53 @@ def jointureNaive(df_original, df_anonymise, nom_fichier):
 def calcul_distance_hausdorff(trajectoire1, trajectoire2):
     return max(directed_hausdorff(trajectoire1, trajectoire2)[0], directed_hausdorff(trajectoire2, trajectoire1)[0])
 
+import concurrent.futures
+
+def process_semaine(vrai_id, semaine, df_original, df_anonymise):
+    df_i_semaine = df_original[(df_original['id'] == vrai_id) & (df_original['semaine'] == semaine)].copy()
+    if df_i_semaine.empty:
+        return None
+
+    min_distance = float('inf')
+    correspondant_id = None
+
+    for id_anonyme in df_anonymise['id'].unique():
+        df_anonymise_j = df_anonymise[(df_anonymise['id'] == id_anonyme) & (df_anonymise['semaine'] == semaine)]
+        if not df_anonymise_j.empty:
+            distance = calcul_distance_hausdorff(df_i_semaine[['long', 'lat']], df_anonymise_j[['long', 'lat']])
+            if distance < min_distance:
+                min_distance = distance
+                correspondant_id = id_anonyme
+
+    return vrai_id, semaine, correspondant_id
+
 def similitudeTrajectoires(df_original, df_anonymise, nom_fichier):
-    '''
-    Fonction : L'idée de cet algorithme est d'analyser la corrélation entre trajectoires.
-    Par exemple, pour l'id réel 1, on va construire l'ensemble de coordonnées par semaine, et puis on va analyser
-    la similitude avec les données de chaque id anonyme.
-    Faudrait prioriser dans l'ordrer : la trajectoire - la semaine
-    ''' 
-    t0 =  time.time()
+    t0 = time.time()
     correspondences = pd.DataFrame(columns=['id_o', 'semaine', 'id_x'])
-    
-    df_anonymise['semaine']  = pd.to_datetime(df_anonymise['date'], format="%Y-%m-%d %H:%M:%S").dt.isocalendar().week
-                
-    for vrai_id in df_original['id'].unique():
-        df_i = df_original[(df_original['id'] == vrai_id)].copy()
-        df_i['semaine']  = pd.to_datetime(df_i['date'], format="%Y-%m-%d %H:%M:%S").dt.isocalendar().week
-        
-        for semaine in range(10, 21):                        
-            df_i_semaine = df_i[df_i['semaine'] == semaine]
-            if df_i_semaine.empty :
-                continue
-            #print(df_i_semaine.head(5))
-            min_distance = float(10000)
-            correspondant_id = None
 
-            for id_anonyme in df_anonymise['id'].unique():
-                df_anonymise_j = df_anonymise[df_anonymise['id'] == id_anonyme]
-                #print(df_anonymise_j['date'].value_counts().idxmax())
-                if df_anonymise_j['semaine'].value_counts().idxmax() != semaine:
-                    continue
-                distance = calcul_distance_hausdorff(df_i_semaine[['long', 'lat']], df_anonymise_j[['long', 'lat']])
+    df_original['semaine'] = pd.to_datetime(df_original['date'], format="%Y-%m-%d %H:%M:%S").dt.isocalendar().week
 
-                if distance < min_distance:
-                    min_distance = distance
-                    correspondant_id = id_anonyme
-            print(f"Id réel {vrai_id} -- semaine 2015-{semaine} -- Id anonyme {correspondant_id}")
-            df_anonymise = df_anonymise[df_anonymise['id'] != correspondant_id]
-            correspondences = pd.concat(
-                [pd.DataFrame({'id_o' : vrai_id, 'semaine': '2015-'+str(semaine), 'id_x': correspondant_id}, 
-                                                      columns=correspondences.columns, index=[0]), 
-                 correspondences], 
-            ignore_index=True)
-    print("Temps écoulé : ",time.time()-t0)
-    return correspondences.to_csv(nom_fichier+'.csv', index=False)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = []
 
+        for vrai_id in df_original['id'].unique():
+            for semaine in range(10, 21):
+                futures.append(executor.submit(process_semaine, vrai_id, semaine, df_original, df_anonymise))
+
+        for future in concurrent.futures.as_completed(futures):
+            result = future.result()
+            if result:
+                vrai_id, semaine, correspondant_id = result
+                print(f"Id réel {vrai_id} -- semaine 2015-{semaine} -- Id anonyme {correspondant_id}")
+                df_anonymise = df_anonymise[df_anonymise['id'] != correspondant_id]
+                correspondences = pd.concat([pd.DataFrame({'id_o': vrai_id, 'semaine': '2015-' + str(semaine),
+                                                           'id_x': correspondant_id},
+                                                          columns=correspondences.columns, index=[0]),
+                                             correspondences],
+                                            ignore_index=True)
+
+    print("Temps écoulé : ", time.time() - t0)
+    correspondences.to_csv(nom_fichier + '.csv', index=False)
 
 def correlation(df_original, df_anonymise, nom_fichier):
     '''
