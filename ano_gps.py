@@ -9,7 +9,7 @@ def bdd_to_df_init (fichier):
     return df
 
 def df_to_csv (df, nom_csv):
-    df.to_csv(nom_csv, index=False)
+    df.to_csv(nom_csv, sep="\t", index=False, header=False)
 
 def bruiter_positions_gps (df):
     noise = np.random.uniform(-0.001, 0.001, size=len(df))
