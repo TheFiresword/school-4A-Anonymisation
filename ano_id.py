@@ -9,8 +9,3 @@ def change_id(df : pd.DataFrame):
     df['id_x'] = df.groupby(['id', 'semaine'])['id_x'].transform(lambda serie : fake.name())
     print(df.groupby(['id', 'semaine'])[['id_x']].first())
     return df[['id_x', 'date', 'longitude', 'latitude']]
-
-df = pd.read_csv("../bdd/minimal", delimiter= '\t')
-df.columns = ["id","date", "longitude", "latitude"]
-df_modif = change_id(df)
-print(df_modif)

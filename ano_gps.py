@@ -22,8 +22,8 @@ def arrondir_positions_gps (df, precision):
     return df
 
 def creer_grille (df, precision): # precision = ecart autour de la moyenne en degrés de longitude/latitude
-    moyenne_latitude = df['latitude'].mean().round(3)
-    moyenne_longitude = df['longitude'].mean().round(3)
+    moyenne_latitude = df['latitude'].mean()
+    moyenne_longitude = df['longitude'].mean()
     # dictionnaire des centres des carrés (long, lat) de 200x200 centrés sur la moyenne des coordonnées
     # cases (i,j) coorespondent aux coordonnées des cases dans la grille (-100<i<100 et -100<j<100)
     grille = {}
@@ -59,6 +59,8 @@ def ano_par_grille (df, precision):
 
     # remplacer les valeurs uniquement pour les indices identifiés dans votre DataFrame
     df.loc[indices_a_modifier, ['longitude', 'latitude']] = grille_coords[indices_plus_proches]
+
+    df = arrondir_positions_gps (df, 4)
 
     # df contient maintenant les nouvelles valeurs résultantes uniquement pour les lignes qui satisfont la condition
     return df
