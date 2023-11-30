@@ -9,11 +9,10 @@ import multiprocessing
 
 numfichier = [1,2,4,5,6,7,8,9,11,13,14,15,16,17,18,21,23,24,25,26,27,28,29,30,31,32,34,35,36,37,38,39,41,42,43,44,48,49,50,51,52,53,54,55,58,59,60,62,63,65,66,67,68,69,70,71,72,73,75,77,78,81,83,84,87,89,98,107,110]
 
-reste = [4,27,28,29,30,31,32,34,35,37,38,39,41,42,43,44,49,50,59,60,62,66,67,69,70,71,72,73,75,77,81,83,84,87,89,98]
 
 if __name__ == "__main__":
 
-    noms_fichiers = [f"../../User/sous_ensemble_{i}.csv" for i in reste]
+    noms_fichiers = [f"../../User/sous_ensemble_{i}.csv" for i in numfichier]
 
     # Nombre de threads à utiliser
     nombre_threads =4 

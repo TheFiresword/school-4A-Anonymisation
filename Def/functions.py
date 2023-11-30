@@ -59,7 +59,7 @@ def AnonymDonnees(fichier):
     ParisGps = (48.866667,2.333333)
     ToulouseGps = (43.6,1.43)
     Nbdiv = 100
-    echelle = 0.001
+    echelle = 0.01
     diametre = Nbdiv*echelle/2
     Lyon = CreationCarte(LyonGps[0], LyonGps[1], echelle, Nbdiv)
     Bordeaux = CreationCarte(BordeauxGps[0],BordeauxGps[1], echelle, Nbdiv)
@@ -71,6 +71,15 @@ def AnonymDonnees(fichier):
     #Gestion de la date 
     df['date'] = pd.to_datetime(df['date'])
     df['date'] = df['date'].apply(lambda x: x.replace(minute=0, second=0))
+
+    df['week'] = df['date'].dt.to_period('W')
+
+    df['week'] = df['week'].dt.week
+
+    # Renommer les semaines en utilisant un dictionnaire de correspondance
+    name = {i : names.get_first_name() for i in range(10,21)}
+    df['id_x'] = df['week'].map(name)
+    df.drop(columns=['week'], inplace=True)
 
     #Gestion des coordonées 
     for index, row in df.iterrows():
@@ -109,18 +118,11 @@ def AnonymDonnees(fichier):
         
         print(f"Ligne {index}, fichier {fichier}")
 
-    noise = np.random.uniform(-0.0001, 0.0001, size=len(df))
+    noise = np.random.uniform(-0.001, 0.001, size=len(df))
     df['lat'] = df['lat'] + noise
     df['lont'] = df['lont'] + noise
-    df['week'] = df['date'].dt.to_period('W')
-
-    df['week'] = df['week'].dt.week
-
-    # Renommer les semaines en utilisant un dictionnaire de correspondance
-    name = {i : names.get_first_name() for i in range(10,21)}
-    df['id_x'] = df['week'].map(name)
-    df.drop(columns=['week'], inplace=True)
-    df.to_csv(f"{fichier}_final.csv", index=False)
+    
+    df.to_csv(f"{fichier}_final2.csv", index=False)
 
 
 def traitement_par_thread(noms_fichiers):
