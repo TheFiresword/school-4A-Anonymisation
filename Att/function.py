@@ -10,20 +10,22 @@ def chargerDATAvictime(fichier, nomdf):
     victim = victim.drop_duplicates(subset=['id_x', 'date'])
     count = victim["id_x"].nunique()
     print(count)
-    victim[["lont", "lat"]] = victim[["lont", 'lat']].round(3)
+    victim[["lont", "lat"]] = victim[["lont", 'lat']].round(2)
     victim.to_csv(nomdf + ".csv", index=False)
 
 def chargerDATAorigin(fichier, nomdf):
 
-    origin = pd.read_csv(fichier, delimiter= ',')
+    origin = pd.read_csv(fichier, delimiter= '\t')
     origin.columns = ["id_o","date", "lont", "lat"]
-    origin[["lont", "lat"]] = origin[["lont", 'lat']].round(3)
+    origin[["lont", "lat"]] = origin[["lont", 'lat']].round(2)
     origin.to_csv(nomdf + ".csv", index=False)
 
 def createJoin(fichierorigin, fichiervictim, nomjointure):
 
     origin = pd.read_csv(fichierorigin)
     victim = pd.read_csv(fichiervictim)
+    origin[['date', 'heure']] = origin['date'].str.split(' ', n=1, expand=True)
+    victim[['date', 'heure']] = victim['date'].str.split(' ', n=1, expand=True)
 
     jointure = origin.merge(victim, on=['date', 'lont', 'lat'])
     jointure.to_csv(nomjointure + ".csv", index=False)
@@ -31,7 +33,6 @@ def createJoin(fichierorigin, fichiervictim, nomjointure):
 def createcouple(fichierjointure, nbfichier):
 
     df = pd.read_csv(fichierjointure)
-    df[['date', 'heure']] = df['date'].str.split(' ', n=1, expand=True)
     df['date'] = pd.to_datetime(df['date'])
 
     df['date'] = df['date'].dt.to_period('W')
