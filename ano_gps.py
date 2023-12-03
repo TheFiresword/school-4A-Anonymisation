@@ -88,3 +88,28 @@ def ano_par_grille (df, precision):
 
 
 
+import geopandas as gpd
+from shapely.geometry import Point
+
+# def remplacer_positions_exceptionnelles(df):
+#     # Convertir la DataFrame en GeoDataFrame
+#     gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.longitude, df.latitude))
+
+#     # Calculer le nombre de points dans un rayon de 20 km autour de chaque point
+#     gdf['nb_points_proches'] = gdf.geometry.apply(lambda x: len(gdf[gdf.geometry.distance(x) < 0.2]))
+
+#     # Identifier les lignes avec moins de 5% de points proches
+#     condition = gdf['nb_points_proches'] < 0.05 * len(gdf)
+#     indices_a_modifier = gdf[condition].index
+
+#     # Remplacer les champs des lignes spécifiées par "DEL"
+#     df.loc[indices_a_modifier, :] = "DEL"
+
+#     # Supprimer la colonne temporaire ajoutée
+#     df.drop(columns=['nb_points_proches'], inplace=True)
+
+#     return df
+
+
+
+
