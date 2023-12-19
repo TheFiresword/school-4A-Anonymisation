@@ -5,8 +5,8 @@ import concurrent.futures
 truth_file_url = "https://drive.usercontent.google.com/download?id=1KE4dJ_ArA7jhIUYmzITIYO7Yh60rQ0-K&export=download&authuser=2&confirm=t&uuid=5b074238-7709-408b-ac93-86cf839cdb07&at=APZUnTXJHY4NiV5TeGbmEtE-F6Ip:1699105244012"
 
 # Charger le fichier de vérité dans un dataframe sans le télécharger
-df = processDonnees("truth_ground.csv")
-df_a = df.loc[:10000000]
+#df = processDonnees("truth_ground.csv")
+#df_a = df.loc[:10000000]
 #for i in range(107, 113):
 #    visualiserDonnees(df=df, id=i)
 
@@ -59,8 +59,8 @@ url444="https://drive.usercontent.google.com/download?id=1DFlw-8TN2AG-kzu4GJEyZs
 
 
 #----------------------Submit dazc------------------------#
-df_anonyme = processDonnees("dazc/submit467.csv", supp_lignes_DEL=True, numeric_precision=2, nb_bits_id=0)
-similitudeTrajectoires(df, df_anonyme, f"dazc/Xsubmit467_2")
+#df_anonyme = processDonnees("dazc/submit467.csv", supp_lignes_DEL=True, numeric_precision=2, nb_bits_id=0)
+#similitudeTrajectoires(df, df_anonyme, f"dazc/Xsubmit467_2")
 
 #----------------------Submit anonym------------------------#
 #df_anonyme = processDonnees("anonym/submit468.csv", supp_lignes_DEL=True, numeric_precision=2)
@@ -97,3 +97,21 @@ similitudeTrajectoires(df, df_anonyme, f"dazc/Xsubmit467_2")
 #jointureNaive(df, df_anonyme, 'thathack/Xsubmit356')
 #correlation(df, df_anonyme, "thathack/Xsubmit356_1")
 #genererJson('thathack/Xsubmit356.csv', 'thathack/Xsubmit356_1', incr_semaines=True)
+
+
+#----------------------Auto attaques------------------------#
+#df = processDonnees("partieDefense/file1.csv")
+#df = processDonnees("truth_ground.csv")
+#df_anonyme = processDonnees("partieDefense/anonym3.csv", supp_lignes_DEL=True, numeric_precision=2, nb_bits_id=0)
+#jointureNaive(df, df_anonyme, f"partieAttaque/autoAttaques/sub1")
+#genererJson('partieAttaque/autoAttaques/sub1.csv', 'partieAttaque/autoAttaques/sub1', incr_semaines=True)
+
+
+#----------------------Submit Frangipane------------------------#
+
+df_anonyme = processDonnees("partieAttaque/Cyberwardens/submit672.csv", supp_lignes_DEL=True, numeric_precision=3, nb_bits_id=0)
+df = processDonnees("truth_ground.csv", numeric_precision=3)
+jointureNaive(df, df_anonyme, f"partieAttaque/Cyberwardens/Xsubmit672")
+#correlation(df, df_anonyme, "partieAttaque/Cyberwardens/submit672_X")
+genererJson('partieAttaque/Cyberwardens/Xsubmit672.csv', 'partieAttaque/Cyberwardens/submit672_3')
+

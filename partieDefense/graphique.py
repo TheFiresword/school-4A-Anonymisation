@@ -2,9 +2,8 @@ from typing import List, Tuple, Dict
 import folium
 from folium.plugins import HeatMap
 import pandas as pd
-
-
 from typing import List, Tuple, Dict
+
 def draw_map(id:int, df : pd.DataFrame, name : str, interestPoints : Dict[str, Tuple[float, float]] = {}):
     donnees_id = df[df['id']==id]
     # Créer une carte centrée sur une position de départ (moyenne des coordonnées GPS)

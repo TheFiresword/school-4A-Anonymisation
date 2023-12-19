@@ -82,6 +82,7 @@ def diff_time(key, time1, last_date_tab):
 
 
 def main(originalFile, anonymisedFile, parameters={"size":2,"nbPOI":3,"night_start":22,"night_end":6,"work_start":9,"work_end":16,"weekend_start":10,"weekend_end":18}):
+        print("modified1")
         global size
         size = parameters['size']
         global nbPOI
@@ -148,7 +149,7 @@ def main(originalFile, anonymisedFile, parameters={"size":2,"nbPOI":3,"night_sta
                 for type in tabOri[id]:
                         final_tab_original[id][type] = getMaxElement(tabOri[id][type])
                         final_tab_anonymised[id][type] = getMaxElement(tabAno[id][type])
-
+                        #print(f"Id :{id} - POI:{type} - Valeur1: {final_tab_original[id][type]} - Valeur2: {final_tab_anonymised[id][type]}")
         total_size = sum((len(final_tab_original[id][type]) for id in final_tab_original for type in final_tab_original[id]))
         score = 0
         #print(final_tab_original)

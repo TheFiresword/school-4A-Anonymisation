@@ -1,6 +1,5 @@
 *.
 *.csv
 *.json
-/Autofill
-/Team TresAnonyme
-/ Michel Lardon
+*.txt
+*.zip

@@ -31,15 +31,22 @@ def main(nona, anon, parameters={}): #Compute the utility in function of the dat
                 #Uses the ISO calendar to get both week and day number
                 dateanon = date(int(year_an), int(month_an), int(day_an)).isocalendar()
                 datenona = date(int(year_na), int(month_na), int(day_na)).isocalendar()
-            except: return (-1, filesize)
+            except: 
+                print("Exception date", year_na, month_na, day_na, "VS", year_an, month_an, day_an) 
+                return (-1, filesize)
             if dateanon[1] == datenona[1]: # Weeks must be the same
                 dayanon = dateanon[2]
                 daynona = datenona[2]
                 if datenona[2] != dateanon[2]:
+                    print("Dates différentes", dateanon[2], "VS", datenona[2])
                     # Subtract 1/3 of a point per weekday
                     score -= min([abs(dayanon - daynona), abs(max((dayanon, daynona)) - min((dayanon, daynona)) + 7)]) / 3
-            else: return (-1, filesize)
-        else: return (-1, filesize)
+            else: 
+                print("Exception date", row1[1], "VS", row2[1], "ligne : ", filesize)
+                return (-1, filesize)
+        else: 
+            print("Exception date: Valeur date", row2[1])
+            return (-1, filesize)
         total += max(0, score) if row2[0] != "DEL" else 0
     return total / filesize
 
