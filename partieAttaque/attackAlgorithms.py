@@ -6,7 +6,7 @@ from processingData import *
 from scipy.spatial.distance import directed_hausdorff
 from pandas.core.groupby.generic import DataFrameGroupBy
 import concurrent.futures
-
+#Algo 1
 def jointureNaive(df_original: pd.DataFrame, df_anonymise:pd.DataFrame, nom_fichier, sur_semaine=False, is_frangipane=False):
     '''
     Fonction : L'idée de l'algorithme est de faire des jointures entre le fichier original (truth ground) et le fichier 
@@ -49,61 +49,7 @@ def jointureNaive(df_original: pd.DataFrame, df_anonymise:pd.DataFrame, nom_fich
     
     df_correspondances.to_csv(nom_fichier+'.csv', index=False)
 
-
-
-
-def calcul_distance_hausdorff(trajectoire1, trajectoire2):
-    return max(directed_hausdorff(trajectoire1, trajectoire2)[0], directed_hausdorff(trajectoire2, trajectoire1)[0])
-
-
-
-
-def similitudeTrajectoires(df_original, df_anonymise, nom_fichier):
-    def process_semaine(vrai_id, semaine):
-        df_i_semaine = df_original[(df_original['id'] == vrai_id) & (df_original['semaine'] == semaine)]
-        if df_i_semaine.empty:
-            return None
-
-        min_distance = float('inf')
-        correspondant_id = None
-
-        for id_anonyme in df_anonymise['id'].unique():
-            df_anonymise_j = df_anonymise[(df_anonymise['id'] == id_anonyme) & (df_anonymise['semaine'] == semaine)]
-            if not df_anonymise_j.empty:
-                distance = calcul_distance_hausdorff(df_i_semaine[['long', 'lat']], df_anonymise_j[['long', 'lat']])
-                if distance < min_distance:
-                    min_distance = distance
-                    correspondant_id = id_anonyme
-
-        return vrai_id, semaine, correspondant_id
-        
-    t0 = time.time()
-    correspondences = pd.DataFrame(columns=['id_o', 'semaine', 'id_x'])
-
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures = []
-
-        for vrai_id in df_original['id'].unique():
-            for semaine in range(10, 21):
-                futures.append(executor.submit(process_semaine, vrai_id, semaine))
-
-        for future in concurrent.futures.as_completed(futures):
-            result = future.result()
-            if result:
-                vrai_id, semaine, correspondant_id = result
-                print(f"Id réel {vrai_id} -- semaine 2015-{semaine} -- Id anonyme {correspondant_id}")
-                df_anonymise = df_anonymise[df_anonymise['id'] != correspondant_id]
-                correspondences = pd.concat([pd.DataFrame({'id_o': vrai_id, 'semaine': '2015-' + str(semaine),
-                                                           'id_x': correspondant_id},
-                                                          columns=correspondences.columns, index=[0]),
-                                             correspondences],
-                                            ignore_index=True)
-
-    print("Temps écoulé : ", time.time() - t0)
-    correspondences.to_csv(nom_fichier + '.csv', index=False)
-
-
-
+#Algo2
 def correlation(df_original, df_anonymise, nom_fichier, remove_found=True, is_frangipane=False, threeshold=0.5):
     '''
     Fonction : L'idée de cet algorithme est d'analyser la corrélation entre trajectoires.
@@ -157,11 +103,7 @@ def correlation(df_original, df_anonymise, nom_fichier, remove_found=True, is_fr
 
     df_original.groupby(['id', 'semaine']).apply(calcul_dissimilarite_avec_ids_anonymes)
     
-
-
-def similitudeMoyennes():
-    return
-
+#Algo3
 def correspondanceNombreDeGps(df_original:pd.DataFrame, df_anonymise:pd.DataFrame, nom_fichier):
     data = {}
     correspondances = []
