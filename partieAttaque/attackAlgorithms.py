@@ -1,11 +1,9 @@
-from numpy import Inf
 import pandas as pd
 import gc
 import time
 from processingData import *
 from scipy.spatial.distance import directed_hausdorff
-from pandas.core.groupby.generic import DataFrameGroupBy
-import concurrent.futures
+
 #Algo 1
 def jointureNaive(df_original: pd.DataFrame, df_anonymise:pd.DataFrame, nom_fichier, sur_semaine=False, is_frangipane=False):
     '''
@@ -49,7 +47,7 @@ def jointureNaive(df_original: pd.DataFrame, df_anonymise:pd.DataFrame, nom_fich
     
     df_correspondances.to_csv(nom_fichier+'.csv', index=False)
 
-#Algo2
+#Algo 2
 def correlation(df_original, df_anonymise, nom_fichier, remove_found=True, is_frangipane=False, threeshold=0.5):
     '''
     Fonction : L'idée de cet algorithme est d'analyser la corrélation entre trajectoires.
@@ -103,7 +101,7 @@ def correlation(df_original, df_anonymise, nom_fichier, remove_found=True, is_fr
 
     df_original.groupby(['id', 'semaine']).apply(calcul_dissimilarite_avec_ids_anonymes)
     
-#Algo3
+#Algo 3 
 def correspondanceNombreDeGps(df_original:pd.DataFrame, df_anonymise:pd.DataFrame, nom_fichier):
     data = {}
     correspondances = []
