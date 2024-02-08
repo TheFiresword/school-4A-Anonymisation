@@ -1,4 +1,7 @@
 # Projet d'Anonymisation et Réidentification de Données
+![image](attackRanks.png)
+![image](https://github.com/TheFiresword/school-4A-Anonymisation/assets/109469684/ffdeb215-b951-4f58-99a1-635abc268b2b)
+
 
 Ce projet a pour objectif d'explorer les techniques de défense utilisées pour anonymiser des données sensibles, ainsi que les techniques d'attaque pouvant contourner ces méthodes d'anonymisation. Le projet est organisé sous la forme d'une compétition organisée entre l'`INSA CVL` et l'`INSA LYON` sur la plateforme http://sds5000.insa-cvl.fr/.
 
