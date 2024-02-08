@@ -1,4 +1,4 @@
-# Projet d'Anonymisation et Réidentification de Données
+# Projet d'Anonymisation et Réidentification de Données du groupe `Stuxnet`
 ![image](attackRanks.png)
 ![image](https://github.com/TheFiresword/school-4A-Anonymisation/assets/109469684/ffdeb215-b951-4f58-99a1-635abc268b2b)
 
